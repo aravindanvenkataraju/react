@@ -10,10 +10,10 @@ class Counter extends Component {
     fontSize: 10
   };
 
-  constructor() {
-    super();
-    this.handleClick = this.handleClick.bind(this);
-  }
+  // constructor() {
+  //   super();
+  //   this.handleClick = this.handleClick.bind(this);
+  // }
 
   renderTags() {
     if (this.state.tags.length === 0) return <p>There are no tags!</p>;
@@ -48,9 +48,9 @@ class Counter extends Component {
     return count === 0 ? "Zero" : count;
   }
 
-  handleClick() {
+  handleClick = () => {
     console.log("Increment clicked!", this);
-  }
+  };
 }
 
 export default Counter;
