@@ -5,7 +5,7 @@ import { Movies } from "./components/movies";
 function App() {
   return (
     <div className="App">
-      <main className="container">
+      <main className="container-fluid">
         <Movies />
       </main>
     </div>
