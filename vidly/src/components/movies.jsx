@@ -87,7 +87,7 @@ export class Movies extends Component {
     );
   }
 
-  deleteMovie(movie) {
+  deleteMovie = movie => {
     let _movies = this.state.movies;
     for (let i = 0; i < _movies.length; i++) {
       if (_movies[i]._id === movie._id) {
@@ -95,7 +95,7 @@ export class Movies extends Component {
       }
     }
     this.setState({ movies: _movies });
-  }
+  };
 
   handleLike = movie => {
     console.log("Like clicked movie : " + movie.title);
