@@ -12,29 +12,40 @@ class Counter extends Component {
 
   render() {
     //console.log("props", this.props);
-    const { onIncrement, onDelete } = this.props;
+    const { onIncrement, onDelete, onDecrement, counter } = this.props;
     return (
       <React.Fragment>
-        <span className={this.getBadgeClasses()}>{this.formatCount()}</span>
-        <button
-          onClick={() => onIncrement(this.props.counter)}
-          className="btn btn-secondary btm-sm m-1"
-        >
-          Increment
-        </button>
-        <button
-          onClick={() => onDelete(this.props.counter.id)}
-          className="btn btn-danger btm-sm m-1"
-        >
-          Delete
-        </button>
+        <div className="align-self-center col-1">
+          <span className={this.getBadgeClasses()}>{this.formatCount()}</span>
+        </div>
+        <div className="col">
+          <button
+            onClick={() => onIncrement(counter)}
+            className="btn btn-secondary btm-sm"
+          >
+            +
+          </button>
+          <button
+            onClick={() => onDecrement(counter)}
+            className="btn btn-secondary btm-sm m-2"
+            disabled={counter.value === 0}
+          >
+            -
+          </button>
+          <button
+            onClick={() => onDelete(counter.id)}
+            className="btn btn-danger btm-sm"
+          >
+            X
+          </button>
+        </div>
       </React.Fragment>
     );
   }
 
   getBadgeClasses() {
     const { counter } = this.props;
-    let countBadgeClasses = "badge m-2 badge-";
+    let countBadgeClasses = "badge badge-";
     countBadgeClasses += counter.value === 0 ? "warning" : "primary";
     return countBadgeClasses;
   }
