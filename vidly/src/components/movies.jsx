@@ -1,20 +1,23 @@
 import React, { Component } from "react";
 import { getMovies } from "../services/fakeMovieService";
 import Like from "./common/like";
+import Pagination from "./common/pagination";
 export class Movies extends Component {
   state = {
-    movies: getMovies()
+    movies: getMovies(),
+    pageSize: 4
   };
   render() {
     //console.log(this.state.movies);
     return this.renderMovies();
   }
   renderMovies() {
-    return this.state.movies.length === 0 ? (
+    let count = this.state.movies.length;
+    return count === 0 ? (
       <p>There are no movies in the database</p>
     ) : (
       <React.Fragment>
-        <p>Showing {this.state.movies.length} movies in database</p>
+        <p>Showing {count} movies in database</p>
         <table className="table">
           <thead>
             <tr>
@@ -51,6 +54,11 @@ export class Movies extends Component {
             ))}
           </tbody>
         </table>
+        <Pagination
+          itemsCount={count}
+          pageSize={this.state.pageSize}
+          onPageChange={this.handlePageChange}
+        />
       </React.Fragment>
     );
   }
@@ -72,5 +80,9 @@ export class Movies extends Component {
     _movies[index] = { ..._movies[index] };
     _movies[index].liked = !_movies[index].liked;
     this.setState({ _movies });
+  };
+
+  handlePageChange = page => {
+    console.log("page changed");
   };
 }
