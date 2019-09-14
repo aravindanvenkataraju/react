@@ -15,7 +15,8 @@ export class Movies extends Component {
   };
 
   componentDidMount() {
-    this.setState({ movies: getMovies(), genres: getGenres() });
+    const genres = [{ name: "All Genres" }, ...getGenres()];
+    this.setState({ movies: getMovies(), genres });
   }
 
   render() {
@@ -31,9 +32,10 @@ export class Movies extends Component {
       selectedGenre
     } = this.state;
     console.log("in render method selected Genre : ", selectedGenre);
-    const filtered = selectedGenre
-      ? allMovies.filter(m => m.genre._id === selectedGenre._id)
-      : allMovies;
+    const filtered =
+      selectedGenre && selectedGenre._id
+        ? allMovies.filter(m => m.genre._id === selectedGenre._id)
+        : allMovies;
     const movies = paginate(filtered, currentPage, pageSize);
 
     return count === 0 ? (
@@ -123,6 +125,6 @@ export class Movies extends Component {
 
   handleGenreSelect = genre => {
     console.log("Genre selected : ", genre);
-    this.setState({ selectedGenre: genre });
+    this.setState({ selectedGenre: genre, currentPage: 1 });
   };
 }
