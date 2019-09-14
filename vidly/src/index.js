@@ -5,6 +5,9 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import "bootstrap/dist/css/bootstrap.css";
 import "font-awesome/css/font-awesome.css";
+import "jquery/dist/jquery";
+import "popper.js/dist/esm/popper";
+import "bootstrap/dist/js/bootstrap";
 
 ReactDOM.render(<App />, document.getElementById("root"));
 
