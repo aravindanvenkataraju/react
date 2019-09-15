@@ -5,13 +5,15 @@ import Pagination from "./common/pagination";
 import ListGroup from "./common/listGroup";
 import MoviesTable from "./moviesTable";
 import { paginate } from "../utils/paginate";
+import _ from "lodash";
 export class Movies extends Component {
   state = {
     movies: [],
     genres: [],
     pageSize: 4,
     currentPage: 1,
-    selectedGenre: ""
+    selectedGenre: "",
+    sortColumn: { path: "title", order: "asc" }
   };
 
   componentDidMount() {
@@ -29,14 +31,16 @@ export class Movies extends Component {
       pageSize,
       currentPage,
       movies: allMovies,
-      selectedGenre
+      selectedGenre,
+      sortColumn
     } = this.state;
-    console.log("in render method selected Genre : ", selectedGenre);
+    //console.log("in render method selected Genre : ", selectedGenre);
     const filtered =
       selectedGenre && selectedGenre._id
         ? allMovies.filter(m => m.genre._id === selectedGenre._id)
         : allMovies;
-    const movies = paginate(filtered, currentPage, pageSize);
+    const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
+    const movies = paginate(sorted, currentPage, pageSize);
 
     return count === 0 ? (
       <p>There are no movies in the database</p>
@@ -81,7 +85,7 @@ export class Movies extends Component {
   };
 
   handleLike = movie => {
-    console.log("Like clicked movie : " + movie.title);
+    //console.log("Like clicked movie : " + movie.title);
     let _movies = this.state.movies;
     let index = _movies.indexOf(movie);
     _movies[index] = { ..._movies[index] };
@@ -94,11 +98,19 @@ export class Movies extends Component {
   };
 
   handleGenreSelect = genre => {
-    console.log("Genre selected : ", genre);
+    //console.log("Genre selected : ", genre);
     this.setState({ selectedGenre: genre, currentPage: 1 });
   };
 
   handleSort = path => {
-    console.log("sorting path: ", path);
+    //console.log("sorting path: ", path);
+    const sortColumn = { ...this.state.sortColumn };
+    if (sortColumn.path === path) {
+      sortColumn.order = sortColumn.order === "asc" ? "desc" : "asc";
+    } else {
+      sortColumn.path = path;
+      sortColumn.order = "asc";
+    }
+    this.setState({ sortColumn });
   };
 }
