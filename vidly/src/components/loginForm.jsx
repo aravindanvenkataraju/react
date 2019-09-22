@@ -2,9 +2,17 @@ import React, { Component } from "react";
 
 class LoginForm extends Component {
   username = React.createRef();
+  state = { account: { username: "", password: "" } };
+
   handleSubmit = e => {
     e.preventDefault();
     console.log("Submitted username : ", this.username.current.value);
+  };
+
+  handleChange = e => {
+    const account = { ...this.state.account };
+    account.username = e.currentTarget.value;
+    this.setState({ account });
   };
 
   //   componentDidMount() {
@@ -23,6 +31,8 @@ class LoginForm extends Component {
               id="username"
               type="text"
               className="form-control"
+              value={this.state.account.username}
+              onChange={this.handleChange}
             />
           </div>
           <div className="form-group">
