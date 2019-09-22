@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import _ from "lodash";
 const Pagination = props => {
   const { itemsCount, pageSize, currentPage, onPageChange } = props;
-  console.log("currentPage", currentPage);
+  //console.log("currentPage", currentPage);
   const pagesCount = Math.ceil(itemsCount / pageSize);
   const pages = _.range(1, pagesCount + 1);
   return pagesCount === 1 ? null : (
@@ -14,7 +14,7 @@ const Pagination = props => {
             className={page === currentPage ? "page-item active" : "page-item"}
             key={page}
           >
-            <a
+            <button
               className="page-link"
               onClick={() => {
                 onPageChange(page);
@@ -22,7 +22,7 @@ const Pagination = props => {
               style={{ cursor: "pointer" }}
             >
               {page}
-            </a>
+            </button>
           </li>
         ))}
       </ul>
