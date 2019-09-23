@@ -28,8 +28,10 @@ class LoginForm extends Component {
     if (!error) return null;
     const errors = {};
 
-    for (let item of error.details) errors[item.path[0]] = item.message;
-    console.log(errors);
+    for (let item of error.details) {
+      errors[item.path[0]] = item.message;
+    }
+
     return errors;
     // console.log("result : ", result);
     // const errors = {};
@@ -42,21 +44,29 @@ class LoginForm extends Component {
   };
 
   validateProperty = ({ name, value }) => {
-    const errors = { ...this.state.errors };
-    if (name === "username") {
-      if (value.trim() === "") errors[name] = "Username is required.";
-      else delete errors[name];
-    }
-    if (name === "password") {
-      if (value.trim() === "") errors[name] = "Password is required.";
-      else delete errors[name];
-    }
-    return errors;
+    const obj = { [name]: value };
+    const schema = { [name]: this.schema[name] };
+    const { error } = Joi.validate(obj, schema);
+    return error ? error.details[0].message : null;
+    // const errors = { ...this.state.errors };
+    // if (name === "username") {
+    //   if (value.trim() === "") errors[name] = "Username is required.";
+    //   else delete errors[name];
+    // }
+    // if (name === "password") {
+    //   if (value.trim() === "") errors[name] = "Password is required.";
+    //   else delete errors[name];
+    // }
+    // return errors;
   };
 
   handleChange = ({ currentTarget: input }) => {
+    const errors = { ...this.state.errors };
+    const error = this.validateProperty(input);
+    if (error) errors[input.name] = error;
+    else delete errors[input.name];
+
     const account = { ...this.state.account };
-    const errors = this.validateProperty(input);
     account[input.name] = input.value;
     this.setState({ account, errors });
   };
